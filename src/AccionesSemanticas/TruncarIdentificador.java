@@ -15,7 +15,7 @@ public class TruncarIdentificador extends AccionSemantica{
 	public void ejecutarAccionSemantica(){
 		if(tamanoMaximo < tamanoString()){
 			truncarString(tamanoMaximo);
-			Notificador.addWarnings(lexico., warning);
+			Notificador.addWarning(lexico.getLineaActual(), "Maxima cantidad de caracteres superada, se tomaron los primeros 25 caracteres");
 		}
 	}
 	

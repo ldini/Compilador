@@ -5,11 +5,13 @@ public class Celda {
 	private final int token;
 	private String lexema;
 	private String tipo;
+	private boolean isDeclarada;
 	
 	public Celda(int token, String lexema, String tipo){
 		this.token = token;
 		this.lexema = lexema;
 		this.tipo = tipo;
+		this.isDeclarada = false;
 	}
 	
 	public int getToken(){
@@ -30,5 +32,13 @@ public class Celda {
 
 	public String getTipo(){
 		return tipo;
+	}
+	
+	public void setDeclarada(boolean isDeclarada){
+		this.isDeclarada = isDeclarada;
+	}
+	
+	public boolean isDeclarada(){
+		return this.isDeclarada;
 	}
 }

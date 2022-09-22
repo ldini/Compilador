@@ -12,8 +12,12 @@ public class Notificador {
     	
     }
     
-    public static void addWarnings(int linea, String warning){
+    public static void addWarning(int linea, String warning){
     	warnings.add("WARNING: " + warning + " en la linea N° " + linea);
+    }
+    
+    public static void addError(int linea, String error){
+    	errores.add("ERROR " + error + " en la linea N° " + linea);
     }
     
 }
