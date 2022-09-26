@@ -1,21 +1,33 @@
-%token if then else end-if out fun return break discard for continue ID CTE_INT CTE_FLOAT INT FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL DISTINTO ASIGNACION
+%{
+	package Semantico;
+	import util.*;
+	import Compilador.*;
+%}
+
+%token IF then ELSE end_if out fun RETURN BREAK discard FOR CONTINUE AND OR ID CTE_INT CTE_FLOAT INT FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL IGUAL_IGUAL DISTINTO ASIGNACION
 %start programa
 
-programa: ID '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables '}'
+%%
+programa: ID '{' conjunto_sentencias_programa '}'
 		  | errores_programa
 		  ;
 
+conjunto_sentencias_programa: conjunto_sentencias_declarativas
+							  | conjunto_sentencias_ejecutables
+							  | conjunto_sentencias_declarativas conjunto_sentencias_ejecutables
+							  ;	
+
 errores_programa: '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta la '{' del programa")}
 				  | conjunto_sentencias_declarativas conjunto_sentencias_ejecutables '}' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta la '}' del programa")}
-
+				  ;
 tipo: INT
       | FLOAT
       | CADENA
       ;
 
 sentencia_declarativa: tipo lista_variables ';'
-		             | fun ID '(' parametro ')' ':' tipo '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables return '(' expresion ')' '}' ';'
-		             | errores_sentencia_declarativa
+		             | fun ID '(' parametro ')' ':' tipo '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables RETURN '(' expresion ')' '}' ';'
+
 					 ;
 
 conjunto_sentencias_declarativas: sentencia_declarativa
@@ -33,26 +45,23 @@ ejecutable: asignacion ';'
 			| sentencia_salida
 	        ;
 
-sentencia_discard: discard ID '(' parametro ') ';'
-				   | errores_sentencia_discard
+sentencia_discard: discard ID '(' parametro ')' ';'
 				   ;
 
-sentencia_if: if '(' condicion ')' then bloque_if end_if
-			  | errores_sentencia_if
+sentencia_if: IF '(' condicion ')' then bloque_if end_if
 	          ;
 
 bloque_if: sentencia_ejecutable_if
-		   | sentencia_ejecutable_if else sentencia_ejecutable_if
+		   | sentencia_ejecutable_if ELSE sentencia_ejecutable_if
 
 sentencia_ejecutable_if: '{' conjunto_sentencias_ejecutables '}'
 
 etiqueta: ID ':' ;
 
-sentencia_for: etiqueta for '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables break';' ';'
-			   | etiqueta for '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables ';'
-			   | for '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables break';' ';'
-			   | for '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables ';'
- 			   | errores_sentencia_for
+sentencia_for: etiqueta FOR '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables BREAK';' ';'
+			   | etiqueta FOR '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables ';'
+			   | FOR '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables BREAK';' ';'
+			   | FOR '(' asignacion ';' condicion_for ';' constante ')' conjunto_sentencias_ejecutables ';'
 	           ;
 
 condicion: condicion_AUX
@@ -60,7 +69,11 @@ condicion: condicion_AUX
 		   | errores_condicion
 		   ;
 
-condicio_for: ID comparador expresion
+operador: AND
+		  | OR
+		  ;
+
+condicion_for: ID comparador expresion
 			  ;
 
 errores_condicion: comparador
@@ -72,10 +85,10 @@ condicion_AUX: expresion comparador expresion
 
 comparador: '<'
 			| '>'
-			| 'MENOR_IGUAL'
-			| 'MAYOR_IGUAL'
-			| 'DISTINTO'
-			| 'IGUAL_IGUAL'
+			| MENOR_IGUAL
+			| MAYOR_IGUAL
+			| DISTINTO
+			| IGUAL_IGUAL
 			;
 
 asignacion: ID ASIGNACION expresion
@@ -87,10 +100,10 @@ invocacion_funcion: ID '(' ID ')'
 		    | errores_invocacion_funcion
 	            ;
 
-errores_invocacion_funcion: '(' ID ')' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el ID que hace referencia al nombre de la Funcion")}
-		VER	    | ID '(' ')' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el ID que hace referencia al nombre de la Funcion")}
-			    | '(' ID {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el ')' de la Funcion")}
-			    | ID ')' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el '(' de la Funcion")}
+errores_invocacion_funcion: '(' ID ')' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el ID que hace referencia al nombre de la Funcion"));}
+			    | ID '(' ')' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el ID que hace referencia al nombre de la Funcion"));}
+			    | '(' ID {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el ')' de la Funcion"));}
+			    | ID ')' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta el '(' de la Funcion"));}
 			    ;
 
 expresion: expresion '+' termino
@@ -126,4 +139,7 @@ errores_lista_variables: lista_variables ',' {Accion para notificar el ERROR Sem
 			 ;
 
 sentencia_salida: out '(' CADENA ')' ';'
-				  | errores_sentencia_salida
+	
+
+%%
+public AnalizadorLexico lexico;

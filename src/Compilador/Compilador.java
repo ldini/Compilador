@@ -1,11 +1,13 @@
 package Compilador;
 
-import java.util.Scanner;
+
 import util.*;
 import Simbolo.*;
-
+import Semantico.*;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Scanner;
+
 
 public class Compilador {
 
@@ -15,7 +17,7 @@ public class Compilador {
 	
 	private static void iniciarPalabrasReservadas(){
 		TablaPalabrasReservadas.clear();
-		TablaPalabrasReservadas.agregar("if", token);
+		TablaPalabrasReservadas.agregar("if", Parser.if);
 		TablaPalabrasReservadas.agregar("then", token);
 		TablaPalabrasReservadas.agregar("else", token);
 		TablaPalabrasReservadas.agregar("end-if", token);

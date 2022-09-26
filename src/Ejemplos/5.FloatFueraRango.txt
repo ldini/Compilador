@@ -1,0 +1,5 @@
+programa {
+	FLOAT _fueraRangoPositivo, _fueraRangoNegativo;
+	_fueraRangoPositivo = 3.40282347F+40;
+	_fueraRangoNegativo	= -3.40282347F+40
+}

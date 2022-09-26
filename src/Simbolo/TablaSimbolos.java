@@ -1,6 +1,7 @@
 package Simbolo;
 
 import java.util.*;
+import Semantico.*;
 
 public class TablaSimbolos {
 	private final Map<String, Celda> tablaSimbolos;
