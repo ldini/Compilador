@@ -1,5 +1,5 @@
 package Compilador;
-
+//modificado por lu 01/10
 import Automata.*;
 import Simbolo.*;
 import util.*;
@@ -34,6 +34,10 @@ public class AnalizadorLexico {
 	public CodigoFuente getCodigoFuente() {
 		return codigoFuente;
 	}	
+
+	/*public Automata getAutomata(){
+		return automata;
+	}*/
 	
 	public int tokenGenerado(){
 		automata.reiniciarAutomata();
