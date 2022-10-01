@@ -8,14 +8,12 @@ public class CodigoFuente {
 		this.codigoFuente = codigoFuente;
 	}
 	
-	public boolean endOfFile(){
-		if(posicion == codigoFuente.length())
-			return true;
-		return false;
+	public boolean esEndOfFile(){
+		return posicion == codigoFuente.length();
 	}
 	
 	public void avanzaPosicion(){
-		if(!endOfFile()){
+		if(!esEndOfFile()){
 			posicion++;
 		}
 	}

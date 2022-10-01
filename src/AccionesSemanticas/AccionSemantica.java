@@ -20,5 +20,9 @@ public abstract class AccionSemantica {
 		stringTemporal.delete(maximo, stringTemporal.length());
 	}
 	
+	public String getString(){
+		return stringTemporal.toString();
+	}
+	
 	public abstract void ejecutarAccionSemantica();
 }

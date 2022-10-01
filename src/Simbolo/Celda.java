@@ -41,4 +41,11 @@ public class Celda {
 	public boolean isDeclarada(){
 		return this.isDeclarada;
 	}
+	
+	public String imprimirCelda(){
+		String celda = "( lexema: " + lexema 
+				      +" tipo: " + tipo
+				      +" declarada: " + isDeclarada + ")";
+		return celda;	
+	}
 }

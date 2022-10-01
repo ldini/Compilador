@@ -2,9 +2,12 @@
 	package Semantico;
 	import util.*;
 	import Compilador.*;
+	import Simbolo.*;
+	import java.util.Stack;
+
 %}
 
-%token IF then ELSE end_if out fun RETURN BREAK discard FOR CONTINUE AND OR ID CTE_INT CTE_FLOAT INT FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL IGUAL_IGUAL DISTINTO ASIGNACION
+%token IF then ELSE end_if out fun RETURN BREAK discard FOR CONTINUE AND OR ID CTE_INT CTE_FLOAT INT FLOAT CADENA MAYOR_IGUAL MENOR_IGUAL DISTINTO ASIGNACION
 %start programa
 
 %%
@@ -17,8 +20,8 @@ conjunto_sentencias_programa: conjunto_sentencias_declarativas
 							  | conjunto_sentencias_declarativas conjunto_sentencias_ejecutables
 							  ;	
 
-errores_programa: '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta la '{' del programa")}
-				  | conjunto_sentencias_declarativas conjunto_sentencias_ejecutables '}' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta la '}' del programa")}
+errores_programa: '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta la '{' del programa"));}
+				  | conjunto_sentencias_declarativas conjunto_sentencias_ejecutables '}' {Notificador.addError(lexico.getLineaActual(), ("SINTACTICO en la Linea N°" + lexico.getLineaActual() + "- Falta la '}' del programa"));}
 				  ;
 tipo: INT
       | FLOAT
@@ -88,7 +91,7 @@ comparador: '<'
 			| MENOR_IGUAL
 			| MAYOR_IGUAL
 			| DISTINTO
-			| IGUAL_IGUAL
+			| '='
 			;
 
 asignacion: ID ASIGNACION expresion
@@ -127,7 +130,7 @@ parametro: tipo ID
 	   | errores_parametro
 	   ; 
 
-errores_parametro: ID {Accion para notificar el ERROR Semantico en la Linea X}
+errores_parametro: ID 
 		   ;
 
 lista_variables: ID
@@ -135,7 +138,7 @@ lista_variables: ID
 		 | errores_lista_variables
 		 ; 
 
-errores_lista_variables: lista_variables ',' {Accion para notificar el ERROR Semantico en la Linea X}
+errores_lista_variables: lista_variables ',' 
 			 ;
 
 sentencia_salida: out '(' CADENA ')' ';'
@@ -143,3 +146,21 @@ sentencia_salida: out '(' CADENA ')' ';'
 
 %%
 public AnalizadorLexico lexico;
+private TablaSimbolos tablaSimbolos;
+private Stack <Integer> p;
+
+public Parser(AnalizadorLexico lexico, TablaSimbolos tablaSimbolos){
+	this.tablaSimbolos = tablaSimbolos;
+	this.lexico = lexico;
+	p = new Stack<Integer>();
+}
+
+public int yylex(){
+	int token = lexico.tokenGenerado();
+	yylval = new ParserVal(lexico.ultimoLexemaGenerado);
+	return token;
+}
+
+private void yyerror(String error){
+	Notificador.addError(lexico.getLineaActual(), error);
+}

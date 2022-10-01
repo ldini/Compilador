@@ -15,7 +15,11 @@ public class TablaPalabrasReservadas {
     }
     
     public static void agregar(String palabra, short token){
-    	palabrasReserv.putIfAbsent(palabra, token);
+    	//palabrasReserv.putIfAbsent(palabra, token);
+    }
+    
+    public static void agregarTest(String palabra, short token){
+    	
     }
     
     public static void clear(){
