@@ -1,8 +1,7 @@
 package AccionesSemanticas;
-//agregado por lu 01/10
 
-import Compilador.AnalizadorLexico;
-import Compilador.Notificador;
+import Compilador.*;
+import util.*;
 
 public class GeneroWarning extends AccionSemantica{
     
@@ -16,7 +15,6 @@ public class GeneroWarning extends AccionSemantica{
 
     @Override
     public void ejecutarAccionSemantica(){
-        Notificador.addWarning(analizadorLexico.getLineaActual(),warning)
+        Notificador.addWarning(analizadorLexico.getLineaActual(),warning);
     }
-
 }

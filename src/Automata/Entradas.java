@@ -25,8 +25,9 @@ public class Entradas {
 	public static int F_EXPONENTE = 21;
 	public static int DOS_PUNTOS = 22;
 	public static int OTRO = 23;
+	public static int EOF = 24;
 	
-	public static int totalEntrada = 24;
+	public static int totalEntrada = 25;
 	
 	public static int charToInt(char c){
 		switch(c){

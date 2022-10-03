@@ -71,9 +71,7 @@ public class Compilador {
 			CodigoFuente codigoFuente = new CodigoFuente(ManejadorArch.getFuente(path_name));
 			AnalizadorLexico lexico = new AnalizadorLexico(codigoFuente, tablaSimbolos);
 			parser = new Parser(lexico, tablaSimbolos);
-			parser.run();
-			imprimir(tablaSimbolos);
-			
+			parser.run();			
 		}
 	}
 }

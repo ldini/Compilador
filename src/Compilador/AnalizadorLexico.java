@@ -1,5 +1,5 @@
 package Compilador;
-//modificado por lu 01/10
+
 import Automata.*;
 import Simbolo.*;
 import util.*;
@@ -11,6 +11,7 @@ public class AnalizadorLexico {
 	public short ultimoTokenGenerado = -1;
 	public String ultimoLexemaGenerado;
 	public TablaSimbolos tablaSimbolos;
+	public static final short T_EOF = 0;
 	
 	public AnalizadorLexico(CodigoFuente codigoFuente, TablaSimbolos tablaSimbolos){
         this.automata = new Automata(this, codigoFuente, tablaSimbolos, iniciarTablaPalabrasReservadas());
@@ -35,20 +36,22 @@ public class AnalizadorLexico {
 		return codigoFuente;
 	}	
 
-	/*public Automata getAutomata(){
+	public Automata getAutomata(){
 		return automata;
-	}*/
+	}
 	
 	public int tokenGenerado(){
 		automata.reiniciarAutomata();
 		if(!automata.esEstadoFinal()){
 			if(codigoFuente.esEndOfFile()){
-				return 1;
+				automata.cambiarEof();
+				//finalizar = true;
 			}
 			else {
 				automata.cambiarEstado(codigoFuente.simboloActual());
+				codigoFuente.avanzaPosicion();
 			}
 		}
-		return 2;
+		return ultimoTokenGenerado;
 	}
 }
