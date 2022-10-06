@@ -31,6 +31,9 @@ public class Entradas {
 	
 	public static int charToInt(char c){
 		switch(c){
+			case '\t':
+			case ' ':
+				return DESCARTABLE;
 			case '+':
 				return SUMA;
 			case '-':
@@ -53,8 +56,6 @@ public class Entradas {
 				return PUNTO_COMA;
 			case '_':
 				return GUION_BAJO;
-			case ' ':
-				return DESCARTABLE;
 			case '\n':
 				return SALTO_LINEA;
 			case '<':

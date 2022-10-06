@@ -1,5 +1,5 @@
 programa {
-	INT _variableconmas25caracteres, x;
+	INT variableconmas25caracteres, x;
 	x =: 3 + 4;
 }
 

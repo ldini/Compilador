@@ -1,5 +1,5 @@
 programa {
-	INT maximo = 10;
+	INT maximo =: 10;
 	INT i;
 	FLOAT j;
 	j =: 1.;

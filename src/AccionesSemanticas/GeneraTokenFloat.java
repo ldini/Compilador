@@ -29,14 +29,17 @@ public class GeneraTokenFloat extends AccionSemantica{
 		String auxExponente = new String();
 		int pos= 0;
 		for(int i=0; i < valorFloat.length(); i++){
-			if(valorFloat.charAt(i) != 'F')
+			if(valorFloat.charAt(i) != 'F'){
 				auxFloat += valorFloat.charAt(i);
+				pos = i;
+			}
 			else{
 				pos = i;
 				this.base = Double.valueOf(auxFloat);
 				break;
 			}
 		}
+		this.base = Double.valueOf(auxFloat);
 		for(int i=pos+1; i<valorFloat.length(); i++){
 			if(valorFloat.charAt(i) == '-' || valorFloat.charAt(i) == '+')
 				this.signo = valorFloat.charAt(i);

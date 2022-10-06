@@ -3,16 +3,16 @@ programa {
 	{
 		INT sumaInt;
 		sumaInt =: parametro1 + parametro2;
-		return(sumaInt);
+		RETURN(sumaInt);
 	}
 	fun retornoFloat(FLOAT parametro3, FLOAT parametro4) : FLOAT
 	{
 		FLOAT sumaFloat;
 		sumaFloat =: parametro3 + parametro4;
-		if(sumaFloat > 0.)
-			return(sumaFloat);
+		if(sumaFloat > 0.) then
+			RETURN(sumaFloat);
 		else
-			return 0.;
+			RETURN 0.;
 	}
 	fun sinParametro() : INT
 	{
@@ -20,9 +20,10 @@ programa {
 		x = 8 - 5;
 		y = 120 - 7;
 		z = x * y;
-		return z;
+		RETURN z;
 	}	
 	INT retorno;
 	INT parametro2 =: 5; 
 	retorno =: fun retornoInt(7, parametro2);
 }
+

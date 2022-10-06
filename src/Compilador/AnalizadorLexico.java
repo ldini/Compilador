@@ -42,16 +42,22 @@ public class AnalizadorLexico {
 	
 	public int tokenGenerado(){
 		automata.reiniciarAutomata();
-		if(!automata.esEstadoFinal()){
+		while(!automata.esEstadoFinal()){
+			
 			if(codigoFuente.esEndOfFile()){
+				System.out.println("Entra esEndOfFIle");
+				System.out.println(automata.getEstado());
 				automata.cambiarEof();
 				//finalizar = true;
 			}
 			else {
+				System.out.println("AnalizadoLexico.java -- tokenGenerado(): " + this.codigoFuente.simboloActual());
 				automata.cambiarEstado(codigoFuente.simboloActual());
 				codigoFuente.avanzaPosicion();
+				System.out.println("AnalizadoLexico.java -- Estado Siguiente " + automata.getEstado());
 			}
 		}
+		System.out.println("Lexema Generado: " + ultimoLexemaGenerado + " - " + "Token Generado:" + ultimoTokenGenerado );
 		return ultimoTokenGenerado;
 	}
 }

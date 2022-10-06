@@ -29,7 +29,7 @@ tipo: INT
       ;
 
 sentencia_declarativa: tipo lista_variables ';'
-		             | fun ID '(' parametro ')' ':' tipo '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables RETURN '(' expresion ')' '}' ';'
+		             | fun ID '(' lista_parametros')' ':' tipo '{' conjunto_sentencias_declarativas conjunto_sentencias_ejecutables RETURN '(' expresion ')' '}' ';'
 
 					 ;
 
@@ -94,7 +94,7 @@ comparador: '<'
 			| '='
 			;
 
-asignacion: ID ASIGNACION expresion
+asignacion: ID ASIGNACION expresion ';'
 	        | ID ASIGNACION invocacion_funcion
 			| ID ASIGNACION sentencia_for
 	        ;	
@@ -129,6 +129,10 @@ constante: CTE_INT
 parametro: tipo ID
 	   | errores_parametro
 	   ; 
+
+lista_parametros: lista_parametros parametro
+	   | parametro
+	   ;
 
 errores_parametro: ID 
 		   ;

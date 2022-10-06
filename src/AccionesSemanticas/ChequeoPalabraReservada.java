@@ -2,6 +2,7 @@ package AccionesSemanticas;
 
 import util.*;
 import Automata.*;
+import Semantico.Parser;
 import Simbolo.*;
 
 public class ChequeoPalabraReservada extends AccionSemantica {
@@ -27,7 +28,8 @@ public class ChequeoPalabraReservada extends AccionSemantica {
 			retrocedeCodigoFuente.ejecutarAccionSemantica();
 			TruncarIdentificador truncarIdentificador = new TruncarIdentificador(automata.getAnalizadoLexico());
 			truncarIdentificador.ejecutarAccionSemantica();
-			
+			GeneroTokenTablaSimbolos generoTokenTablaSimbolos = new	GeneroTokenTablaSimbolos(automata, Parser.ID, tablaSimbolos);
+			generoTokenTablaSimbolos.ejecutarAccionSemantica();
 		}
 	}
 	

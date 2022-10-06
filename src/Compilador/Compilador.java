@@ -11,9 +11,6 @@ import java.util.Scanner;
 
 public class Compilador {
 	public static Parser parser;
-	public static void main(String[] args) throws Exception{
-		
-	}
 	
 	private static void iniciarPalabrasReservadas(){
 		TablaPalabrasReservadas.clear();
@@ -36,6 +33,7 @@ public class Compilador {
 	
 	private static void inicializarTokens(){
 		ConjuntoTokens.clear();
+		ConjuntoTokens.agregar(AnalizadorLexico.T_EOF,"EOF");
 		ConjuntoTokens.agregar((short) ':', ":");
 		ConjuntoTokens.agregar((short) '(', "(");
 		ConjuntoTokens.agregar((short) ')', ")");
@@ -44,6 +42,7 @@ public class Compilador {
 		ConjuntoTokens.agregar((short) '=', "=");
 		ConjuntoTokens.agregar((short) ',', ",");
 		ConjuntoTokens.agregar((short) '!', "!");
+		ConjuntoTokens.agregar((short) ';', ";");
 		ConjuntoTokens.agregar(Parser.MENOR_IGUAL,"<=");
 		ConjuntoTokens.agregar(Parser.MAYOR_IGUAL,">=");
 		ConjuntoTokens.agregar(Parser.DISTINTO,"=!");
@@ -71,7 +70,10 @@ public class Compilador {
 			CodigoFuente codigoFuente = new CodigoFuente(ManejadorArch.getFuente(path_name));
 			AnalizadorLexico lexico = new AnalizadorLexico(codigoFuente, tablaSimbolos);
 			parser = new Parser(lexico, tablaSimbolos);
-			parser.run();			
+			parser.run();
+			int token = lexico.tokenGenerado();
+			System.out.println(token);
+			imprimir(tablaSimbolos);
 		}
 	}
 }

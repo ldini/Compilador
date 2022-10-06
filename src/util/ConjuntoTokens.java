@@ -17,6 +17,6 @@ public class ConjuntoTokens {
 	public static String getLexema(short token){
 		if(tokens.get(token) != null)
 			return tokens.get(token);
-		throw new IllegalStateException();
+		throw new IllegalStateException("El token " + token +  "no se encuentra en los tokens almacenados");
 	}
 }

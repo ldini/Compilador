@@ -32,10 +32,18 @@ public class Automata {
     
     public void cambiarEstado(char c){
     	int entrada = Entradas.charToInt(c);
+    	Arista arista = automata[estadoActual][entrada];
+    	arista.getAristas();
+    	estadoActual = arista.getSiguienteEstado();
+    	arista.ejecutarAccionesSemanticas();
     }
     
     public void setVarSintactico(short token, String lexema){
     	lexico.setVariablesSintactico(token, lexema);
+    }
+    
+    public int getEstado(){
+    	return this.estadoActual;
     }
     
     public AnalizadorLexico getAnalizadoLexico(){
@@ -45,7 +53,7 @@ public class Automata {
     public void cambiarEof(){
     	Arista arista = automata[estadoActual][Entradas.EOF];
     	arista.ejecutarAccionesSemanticas();
-    	lexico.setVariablesSintactico(lexico.T_EOF, "");
+    	lexico.setVariablesSintactico(AnalizadorLexico.T_EOF, "");
     	estadoActual = Estados.FINAL;
     }
     
@@ -61,7 +69,7 @@ public class Automata {
     	ConcatenaChar concatenaChar = new ConcatenaChar(codigoFuente);
     	
     	/*AS3 Cuenta Salto de Linea*/
-    	CuentaSaltoLinea cuentaSaltoLinea = new CuentaSaltoLinea();
+    	//CuentaSaltoLinea cuentaSaltoLinea = new CuentaSaltoLinea();
     	
     	/*AS4 Truncar Identificador*/
     	TruncarIdentificador truncarIdentificador = new TruncarIdentificador(lexico);
@@ -90,13 +98,20 @@ public class Automata {
     	/*Inicializo Errores y Warnings*/
     	GeneroError generoError = new GeneroError("Simbolo no reconocido", lexico);
     	GeneroWarning generoWarning = new GeneroWarning("Warning generado", lexico);
-    	
+    	GeneroTokenParticular generoAsignacion = new GeneroTokenParticular(this, Parser.ASIGNACION);
+    	GeneroTokenParticular generoEOF = new GeneroTokenParticular(this, AnalizadorLexico.T_EOF);
     	/*Inicializo Trancisiones*/
+    	automata[Estados.INICIAL][Entradas.DESCARTABLE] = new Arista(Estados.INICIAL);
+    	automata[Estados.INICIAL][Entradas.SALTO_LINEA] = new Arista(Estados.INICIAL, cuentaSaltoLinea);
     	inicializoCaminoLiterales(codigoFuente);
     	inicializoCaminoIdentificadoresyPalabrasR(inicStringVacio, concatenaChar, chequeoPalabraReservada);
+    	
     	//FALTA INICIALIZAR COMENTARIO
-    	inicializoCaminoComparadores(retrocedeCodigoFuente);
+    	inicializoCaminoComparadores(retrocedeCodigoFuente, generoAsignacion);
     	inicializoCaminoNumeros(inicStringVacio, concatenaChar, generoTokenEnteroCorto, generoTokenFloat, cuentaSaltoLinea, retrocedeCodigoFuente);
+    	inicializoCaminoAsignacion(codigoFuente, retrocedeCodigoFuente);
+    	
+    	automata[Estados.INICIAL][Entradas.EOF] = new Arista(Estados.FINAL, generoEOF);
     }
     
     private void inicializaTransiciones(int origen, int destino, AccionSemantica... accionSemantica){
@@ -125,6 +140,7 @@ public class Automata {
     	automata[Estados.INICIAL][Entradas.LETRA_MINUSCULA] = new Arista(Estados.DETECTA_PR_ID, inicStringVacio, concatenaChar);
     	  	
     	//Estado 1 --> Estado 1
+    	inicializaTransiciones(Estados.DETECTA_PR_ID, Estados.FINAL, chequeoPalabraReservada);
     	automata[Estados.DETECTA_PR_ID][Entradas.LETRA_MAYUSCULA] = new Arista(Estados.DETECTA_PR_ID, concatenaChar);
 	   	automata[Estados.DETECTA_PR_ID][Entradas.LETRA_MINUSCULA] = new Arista(Estados.DETECTA_PR_ID, concatenaChar);
 	   	automata[Estados.DETECTA_PR_ID][Entradas.GUION_BAJO] = new Arista(Estados.DETECTA_PR_ID, concatenaChar);
@@ -132,11 +148,11 @@ public class Automata {
 	   	automata[Estados.DETECTA_PR_ID][Entradas.F_EXPONENTE] = new Arista(Estados.DETECTA_PR_ID, concatenaChar);
 	   	
 	   	//Estado 1 --> Estado F
-	   	automata[Estados.DETECTA_PR_ID][Entradas.OTRO] = new Arista(Estados.FINAL, chequeoPalabraReservada);
-	   	inicializaTransiciones(Estados.DETECTA_PR_ID, Estados.FINAL, chequeoPalabraReservada);
+	   	//automata[Estados.DETECTA_PR_ID][Entradas.OTRO] = new Arista(Estados.FINAL, chequeoPalabraReservada);
+	   	//inicializaTransiciones(Estados.DETECTA_PR_ID, Estados.FINAL, chequeoPalabraReservada);
     }
     
-    private void inicializoCaminoComparadores(AccionSemantica retrocedeCodigoFuente){
+    private void inicializoCaminoComparadores(AccionSemantica retrocedeCodigoFuente, AccionSemantica generoAsignacion){
     	GeneroTokenParticular generoMenorIgual = new GeneroTokenParticular(this, Parser.MENOR_IGUAL);
     	GeneroTokenParticular generoMayorIgual = new GeneroTokenParticular(this, Parser.MAYOR_IGUAL);
     	GeneroTokenParticular generoDistinto = new GeneroTokenParticular(this, Parser.DISTINTO);
@@ -164,8 +180,14 @@ public class Automata {
     	GeneroTokenParticular generoTokenParticularIgual = new GeneroTokenParticular(this, (short) '=');
     	inicializaTransiciones(Estados.DISTINTO, Estados.FINAL, retrocedeCodigoFuente, generoTokenParticularIgual);
     	automata[Estados.DISTINTO][Entradas.SIGNO_EXCLAMACION] = new Arista(Estados.FINAL, generoDistinto);	
+    	
     }
     
+    private void inicializoCaminoAsignacion(CodigoFuente codigoFuente, AccionSemantica retrocedeCodigoFuente){
+    	GeneroTokenLiteral generoTokenL = new GeneroTokenLiteral(codigoFuente, this);
+    	inicializaTransiciones(Estados.DISTINTO, Estados.FINAL, generoTokenL, retrocedeCodigoFuente);
+    	automata[Estados.DISTINTO][Entradas.DOS_PUNTOS] = new Arista(Estados.FINAL);
+    }
     private void inicializoCaminoNumeros(AccionSemantica inicStringVacio, AccionSemantica concatenaChar, AccionSemantica generoTokenEnteroCorto, AccionSemantica generoTokenFloat, AccionSemantica cuentaSaltoLinea, AccionSemantica retrocedeCodigoFuente){
     	//Estado 0 --> Estado 6
     	automata[Estados.INICIAL][Entradas.DIGITO] = new Arista(Estados.DIGITO_1, inicStringVacio, concatenaChar);
@@ -173,15 +195,18 @@ public class Automata {
     	//Estado 0 --> Estado 7
     	automata[Estados.INICIAL][Entradas.PUNTO] = new Arista(Estados.DIGITO_2, inicStringVacio, concatenaChar);
     	
+      	inicializaTransiciones(Estados.DIGITO_1, Estados.FINAL, generoTokenEnteroCorto, retrocedeCodigoFuente);
+    	
     	//Estado 6 --> Estado 6
     	automata[Estados.DIGITO_1][Entradas.DIGITO] = new Arista(Estados.DIGITO_1, concatenaChar);
     	
     	//Estado 6 --> Estado F 
     	automata[Estados.DIGITO_1][Entradas.SALTO_LINEA] = new Arista(Estados.FINAL, generoTokenEnteroCorto, cuentaSaltoLinea);
-    	inicializaTransiciones(Estados.DIGITO_1, Estados.FINAL, generoTokenEnteroCorto, retrocedeCodigoFuente);
     	
     	//Estado 6 --> Estado 7
     	automata[Estados.DIGITO_1][Entradas.PUNTO] = new Arista(Estados.DIGITO_2, concatenaChar);
+    	
+    	inicializaTransiciones(Estados.DIGITO_2, Estados.FINAL, generoTokenFloat, retrocedeCodigoFuente);
     	
     	//Estado 7 --> Estado 7
     	automata[Estados.DIGITO_2][Entradas.DIGITO] = new Arista(Estados.DIGITO_2, concatenaChar);
@@ -190,8 +215,10 @@ public class Automata {
     	automata[Estados.DIGITO_2][Entradas.F_EXPONENTE] = new Arista(Estados.DIGITO_3, concatenaChar);
     	
     	//Estado 7 --> Estado F
+    	
     	automata[Estados.DIGITO_2][Entradas.OTRO] = new Arista(Estados.FINAL, retrocedeCodigoFuente, generoTokenEnteroCorto);
     	
+    	inicializaTransiciones(Estados.DIGITO_3, Estados.FINAL, generoTokenFloat, retrocedeCodigoFuente);
     	//Estado 8 --> Estado 8
     	automata[Estados.DIGITO_3][Entradas.DIGITO] = new Arista(Estados.DIGITO_3, concatenaChar);
     	
@@ -200,12 +227,15 @@ public class Automata {
     	automata[Estados.DIGITO_3][Entradas.RESTA] = new Arista(Estados.DIGITO_4, concatenaChar);
     	
     	//Estado 8 --> Estado F
+    	
     	automata[Estados.DIGITO_3][Entradas.OTRO] = new Arista(Estados.FINAL, retrocedeCodigoFuente, generoTokenEnteroCorto);
     	
+    	inicializaTransiciones(Estados.DIGITO_4, Estados.FINAL, generoTokenFloat, retrocedeCodigoFuente);
     	//Estado 9 --> Estado 9
     	automata[Estados.DIGITO_4][Entradas.DIGITO] = new Arista(Estados.DIGITO_4, concatenaChar);
     	
     	//Estado 9 --> Estado F
     	automata[Estados.DIGITO_4][Entradas.OTRO] = new Arista(Estados.FINAL, retrocedeCodigoFuente, generoTokenFloat);   	
+
     }
 }

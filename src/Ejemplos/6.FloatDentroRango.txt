@@ -1,5 +1,5 @@
 programa {
-	FLOAT _dentroRangoPositivo, _dentroRangoNegativo;
-	_dentroRangoPositivo = 3.1347F+38;
-	_dentroRangoNegativo = -3.1347F+38;
+	FLOAT dentroRangoPositivo, dentroRangoNegativo;
+	dentroRangoPositivo = 3.1347F+38;
+	dentroRangoNegativo = -3.1347F+38;
 }

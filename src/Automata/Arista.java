@@ -17,6 +17,11 @@ public class Arista {
 		return this.siguienteEstado;
 	}
 	
+	public void getAristas(){
+		for(AccionSemantica a: accionesSemanticas)
+			System.out.println("Arista.java -- " + a);
+	}
+	
 	public void ejecutarAccionesSemanticas(){
 		for(AccionSemantica accionSemantica: accionesSemanticas)
 			accionSemantica.ejecutarAccionSemantica();

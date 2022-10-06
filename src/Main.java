@@ -14,7 +14,7 @@ public class Main {
 		String name = in_name.next();*/
 		
 		//Ejecutamos archivos individuales
-		compilador.ejecutar("C:/Users/jorge/OneDrive/Escritorio/Facultad/4°/compiladores/Compilador/src/Ejemplos/1.Identificador.txt", "C:/Users/jorge/OneDrive/Escritorio/Facultad/4°/compiladores/Compilador/src/Ejemplos");
+		compilador.ejecutar("C:/Users/jorge/OneDrive/Escritorio/Facultad/4°/compiladores/Compilador/src/Ejemplos/test.txt", "C:/Users/jorge/OneDrive/Escritorio/Facultad/4°/compiladores/Compilador/src/Ejemplos");
 	}
 	
 	
