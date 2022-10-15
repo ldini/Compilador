@@ -69,9 +69,10 @@ public class Compilador {
 			iniciarPalabrasReservadas();
 			CodigoFuente codigoFuente = new CodigoFuente(ManejadorArch.getFuente(path_name));
 			AnalizadorLexico lexico = new AnalizadorLexico(codigoFuente, tablaSimbolos);
-			parser = new Parser(lexico, tablaSimbolos);
-			parser.run();
+//			parser = new Parser(lexico, tablaSimbolos);
+//			parser.run();
 			int token = lexico.tokenGenerado();
+			token = lexico.tokenGenerado();
 			System.out.println(token);
 			imprimir(tablaSimbolos);
 		}

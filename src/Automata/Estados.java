@@ -12,5 +12,5 @@ public class Estados {
 	public static final int DIGITO_3 = 8;
 	public static final int DIGITO_4 = 9;
 	public static final int FINAL = 10;
-	public static final int totalEstados = 11; 
+	public static final int totalEstados = 11;
 }

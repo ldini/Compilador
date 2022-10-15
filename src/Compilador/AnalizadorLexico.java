@@ -40,17 +40,20 @@ public class AnalizadorLexico {
 		return automata;
 	}
 	
+	
 	public int tokenGenerado(){
 		automata.reiniciarAutomata();
 		while(!automata.esEstadoFinal()){
 			
 			if(codigoFuente.esEndOfFile()){
+				
 				System.out.println("Entra esEndOfFIle");
 				System.out.println(automata.getEstado());
 				automata.cambiarEof();
 				//finalizar = true;
 			}
 			else {
+				System.out.println(codigoFuente.getString().length());
 				System.out.println("AnalizadoLexico.java -- tokenGenerado(): " + this.codigoFuente.simboloActual());
 				automata.cambiarEstado(codigoFuente.simboloActual());
 				codigoFuente.avanzaPosicion();

@@ -69,7 +69,7 @@ public class Entradas {
 			case '.':
 				return PUNTO;
 			case 'F':
-				return F_EXPONENTE;
+				return F_EXPONENTE; // check letra mayuscula F
 			case ':':
 				return DOS_PUNTOS;
 		}

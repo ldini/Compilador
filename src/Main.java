@@ -14,7 +14,7 @@ public class Main {
 		String name = in_name.next();*/
 		
 		//Ejecutamos archivos individuales
-		compilador.ejecutar("C:/Users/jorge/OneDrive/Escritorio/Facultad/4°/compiladores/Compilador/src/Ejemplos/test.txt", "C:/Users/jorge/OneDrive/Escritorio/Facultad/4°/compiladores/Compilador/src/Ejemplos");
+		compilador.ejecutar("C:/Users/Leandro/Desktop/Compiladores/Compilador/src/Ejemplos/0.IdentificadorFueraDeRango.txt", "C:/Users/Leandro/Desktop/Compiladores/Compilador/src/Ejemplos");
 	}
 	
 	

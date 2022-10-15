@@ -11,7 +11,8 @@ public class Automata {
     private int estadoActual = Estados.INICIAL;
     private final AnalizadorLexico lexico;
     private Arista[][] automata = new Arista[Estados.totalEstados][Entradas.totalEntrada];
-	public Automata(AnalizadorLexico lexico, CodigoFuente codigoFuente, TablaSimbolos tablaSimbolos, TablaPalabrasReservadas tablaPalabrasReservadas) {
+	
+    public Automata(AnalizadorLexico lexico, CodigoFuente codigoFuente, TablaSimbolos tablaSimbolos, TablaPalabrasReservadas tablaPalabrasReservadas) {
 		this.lexico = lexico;
 		inicializarAutomata(codigoFuente, tablaSimbolos);
 	}

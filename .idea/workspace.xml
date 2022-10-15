@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b4b8c07d-1685-44ac-a464-19fe508a2bcc" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/bin/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bin/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Compilador/Compilador.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Compilador/Compilador.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Automata/Automata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Automata/Automata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Automata/Entradas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Automata/Entradas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Automata/Estados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Automata/Estados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compilador/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compilador/AnalizadorLexico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compilador/Compilador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compilador/Compilador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ejemplos/0.IdentificadorFueraDeRango.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ejemplos/0.IdentificadorFueraDeRango.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/CodigoFuente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/CodigoFuente.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2G8Db63aVVbHfPnYBrDrx6zY4x0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4b8c07d-1685-44ac-a464-19fe508a2bcc" name="Changes" comment="" />
+      <created>1665761390031</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665761390031</updated>
+      <workItem from="1665761393534" duration="102000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

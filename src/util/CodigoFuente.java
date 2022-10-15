@@ -4,6 +4,10 @@ public class CodigoFuente {
 	private String codigoFuente;
 	private int posicion = 0;
 	
+	public String getString() { //check eliminar mas adelante
+		return this.codigoFuente;
+	}
+	
 	public CodigoFuente(String codigoFuente){
 		this.codigoFuente = codigoFuente;
 	}
